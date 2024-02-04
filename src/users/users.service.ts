@@ -16,4 +16,26 @@ export class UsersService {
     });
     return this.userRepository.save(user);
   }
+
+  findOne(id: number) {
+    return this.userRepository.findOneBy({ id });
+  }
+
+  async update(id: number, attrs: Partial<User>) {
+    const user = await this.userRepository.findOneBy({ id });
+    if (!user) {
+      throw new Error('User not found.');
+    }
+    Object.assign(user, attrs);
+    return this.userRepository.save(user);
+  }
+
+  async remove(id: number) {
+    // return this.userRepository.delete({ id }); //  hooks doesn't run
+    const user = await this.userRepository.findOneBy({ id });
+    if (!user) {
+      throw new Error('User not found.');
+    }
+    return this.userRepository.remove(user); // hooks run with this approach
+  }
 }
