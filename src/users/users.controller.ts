@@ -1,6 +1,15 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Get,
+  Param,
+  Query,
+  Patch,
+} from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UsersService } from './users.service';
+import { User } from './user.entity';
 
 @Controller('auth')
 export class UsersController {
@@ -9,5 +18,15 @@ export class UsersController {
   @Post('/signup')
   createUser(@Body() body: CreateUserDto) {
     this.usersService.create(body.email, body.password);
+  }
+
+  @Get('/:id')
+  findUser(@Param('id') id: string): Promise<User> {
+    return this.usersService.findOne(parseInt(id));
+  }
+
+  @Get()
+  findAllUsers(@Query('email') email: string): Promise<User[]> {
+    return this.usersService.find(email);
   }
 }
