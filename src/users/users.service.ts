@@ -19,11 +19,7 @@ export class UsersService {
   }
 
   async findOne(id: number) {
-    const user = await this.userRepository.findOneBy({ id });
-    if (!user) {
-      throw new NotFoundException(`User is not found with id: ${id}`);
-    }
-    return user;
+    return this.userRepository.findOneBy({ id });
   }
 
   find(email: string) {
@@ -33,7 +29,7 @@ export class UsersService {
   async update(id: number, attrs: Partial<User>) {
     const user = await this.userRepository.findOneBy({ id });
     if (!user) {
-      throw new Error('User not found.');
+      throw new NotFoundException('User not found.');
     }
     Object.assign(user, attrs);
     return this.userRepository.save(user);
@@ -43,7 +39,7 @@ export class UsersService {
     // return this.userRepository.delete({ id }); //  hooks doesn't run
     const user = await this.userRepository.findOneBy({ id });
     if (!user) {
-      throw new Error('User not found.');
+      throw new NotFoundException('User not found.');
     }
     return this.userRepository.remove(user); // hooks run with this approach
   }
