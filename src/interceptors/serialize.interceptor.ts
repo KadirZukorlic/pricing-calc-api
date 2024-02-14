@@ -7,7 +7,12 @@ import {
 import { map, Observable } from 'rxjs';
 import { plainToClass } from 'class-transformer';
 
-export function Serialize(dto: any) {
+// this is interface to make sure that only the class is passed to the Serialize decorator
+interface ClassConstructor {
+  new (...args: any[]): {};
+}
+
+export function Serialize(dto: ClassConstructor) {
   return UseInterceptors(new SerializeInterceptor(dto));
 }
 
