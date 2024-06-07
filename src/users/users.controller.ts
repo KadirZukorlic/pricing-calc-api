@@ -8,6 +8,7 @@ import {
   Patch,
   Delete,
   NotFoundException,
+  Session
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { User } from './user.entity';
@@ -21,6 +22,17 @@ import { UserDto } from './dtos/user.dto';
 @Serialize(UserDto)
 export class UsersController {
   constructor(private usersService: UsersService, private authService: AuthService) {}
+
+  // set session color to red or some other color
+  // @Get('/colors/:color')
+  // setColor(@Param('color') color: string, @Session() session: any) {
+  //   session.color = color;
+  // }
+
+  // @Get('/colors')
+  // getColor(@Session() session: any) {
+  //   return session.color;
+  // }
 
   @Post('/signup')
   createUser(@Body() body: CreateUserDto) {
