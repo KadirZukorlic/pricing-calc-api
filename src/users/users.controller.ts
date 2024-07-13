@@ -9,7 +9,7 @@ import {
   Delete,
   NotFoundException,
   Session,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { User } from './user.entity';
@@ -24,7 +24,10 @@ import { AuthGuard } from 'src/guards/auth.guard';
 @Controller('auth')
 @Serialize(UserDto)
 export class UsersController {
-  constructor(private usersService: UsersService, private authService: AuthService) {}
+  constructor(
+    private usersService: UsersService,
+    private authService: AuthService,
+  ) {}
 
   // set session color to red or some other color
   // @Get('/colors/:color')
@@ -62,7 +65,7 @@ export class UsersController {
 
   @Post('/signin')
   async signin(@Body() body: CreateUserDto, @Session() session: any) {
-    const user = await this.authService.signin(body.email, body.password)
+    const user = await this.authService.signin(body.email, body.password);
     session.userId = user.id;
     return user;
   }
