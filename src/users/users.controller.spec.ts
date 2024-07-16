@@ -23,20 +23,20 @@ describe('UsersController', () => {
           { id: 1, email, password: 'password' } as User,
         ]);
       },
-      remove: (id: number): Promise<User> => {
-        return Promise.resolve({
-          id,
-          email: 'myemail@email.com',
-          password: 'password',
-        } as User);
-      },
-      update: (id: number, attrs: Partial<User>): Promise<User> => {
-        return Promise.resolve({
-          id,
-          email: 'myemail@email.com',
-          password: 'password',
-        } as User);
-      },
+      // remove: (id: number): Promise<User> => {
+      //   return Promise.resolve({
+      //     id,
+      //     email: 'myemail@email.com',
+      //     password: 'password',
+      //   } as User);
+      // },
+      // update: (id: number, attrs: Partial<User>): Promise<User> => {
+      //   return Promise.resolve({
+      //     id,
+      //     email: 'myemail@email.com',
+      //     password: 'password',
+      //   } as User);
+      // },
     };
     fakeAuthService = {
       signin: (email: string, password: string): Promise<User> => {
@@ -79,5 +79,16 @@ describe('UsersController', () => {
     fakeUsersService.findOne = () => null;
 
     await expect(controller.findUser('1')).rejects.toThrow();
+  });
+
+  it('signin updates session object and returns user', async () => {
+    const session = { userId: -10 };
+    const user = await controller.signin(
+      { email: 'asdf@asdf.com', password: 'asdf' },
+      session,
+    );
+
+    expect(user.id).toEqual(1);
+    expect(session.userId).toEqual(1);
   });
 });
