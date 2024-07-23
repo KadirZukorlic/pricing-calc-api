@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
 } from 'typeorm';
+import { Report } from 'src/reports/reports.entity';
 
 @Entity()
 export class User {
