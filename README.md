@@ -24,6 +24,11 @@
 
 ## Description
 
+## Migrations
+
+Generate: `npm run typeorm migration:generate src/migrations/NAMEOFYOURMIGRATION`
+Run: `npm run typeorm migration:run`
+
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
 ## Installation
