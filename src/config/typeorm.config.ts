@@ -6,12 +6,14 @@ import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   constructor(private configService: ConfigService) {}
 
-  createTypeOrmOptions(): TypeOrmModuleOptions {
+  createTypeOrmOptions(): TypeOrmModuleOptions | Promise<TypeOrmModuleOptions> {
     return {
       type: 'sqlite',
-      synchronize: false,
+      synchronize: process.env.NODE_ENV === 'test' ? true : false,
       database: this.configService.get<string>('DB_NAME'),
       autoLoadEntities: true,
+      migrationsRun: process.env.NODE_ENV === 'test' ? true : false,
+      keepConnectionAlive: process.env.NODE_ENV === 'test' ? true : false,
     };
   }
 }
